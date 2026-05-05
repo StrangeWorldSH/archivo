@@ -3,56 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Descarga de Archivos</title>
+    <title>Descarga Directa - Archivos.zip</title>
     <style>
-        body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; background: #f4f4f9; }
-        .card { background: white; padding: 2rem; border-radius: 10px; shadow: 0 4px 6px rgba(0,0,0,0.1); text-align: center; border: 1px solid #ddd; }
-        .btn { display: inline-block; margin-top: 15px; padding: 10px 20px; background: #238636; color: white; text-decoration: none; border-radius: 5px; font-weight: bold; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background: #0d1117; color: white; }
+        .card { background: #161b22; padding: 2.5rem; border-radius: 12px; border: 1px solid #30363d; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.5); width: 300px; }
+        h2 { margin-bottom: 5px; font-size: 1.2rem; color: #58a6ff; }
+        #peso { color: #8b949e; margin-bottom: 20px; font-size: 0.9rem; }
+        .btn { display: inline-block; padding: 12px 24px; background: #238636; color: white; text-decoration: none; border-radius: 6px; font-weight: 600; transition: background 0.2s; }
         .btn:hover { background: #2ea043; }
-        #info { margin-top: 10px; color: #555; }
     </style>
 </head>
 <body>
 
 <div class="card">
-    <h2 id="nombre-archivo">Cargando archivo...</h2>
-    <div id="info">
-        <p id="peso">Calculando tamaño...</p>
-    </div>
-    <a id="enlace-descarga" href="#" class="btn" style="display:none;">Descargar archivo</a>
+    <h2 id="nombre">Archivos.zip</h2>
+    <p id="peso">Calculando tamaño...</p>
+    <a href="https://github.com/StrangeWorldSH/archivo/releases/download/1.0/Archivos.zip" class="btn">Descargar archivo</a>
 </div>
 
 <script>
-    // CONFIGURACIÓN: Cambia estos datos por los tuyos
-    const USUARIO = "TU_USUARIO_DE_GITHUB";
-    const REPO = "NOMBRE_DE_TU_REPOSITORIO";
-    const ARCHIVO = "Archivos.zip";
+    const url = "https://github.com/StrangeWorldSH/archivo/releases/download/1.0/Archivos.zip";
 
-    async function obtenerDatos() {
-        const url = `https://github.com{USUARIO}/${REPO}/contents/${ARCHIVO}`;
-        
+    // Función para obtener el tamaño del archivo desde el servidor
+    async function obtenerPeso() {
         try {
-            const respuesta = await fetch(url);
-            const datos = await respuesta.json();
-
-            if (datos.size) {
-                // Convertir bytes a MB
-                const pesoMB = (datos.size / (1024 * 1024)).toFixed(2);
-                
-                document.getElementById('nombre-archivo').innerText = datos.name;
-                document.getElementById('peso').innerText = `Peso: ${pesoMB} MB`;
-                
-                const link = document.getElementById('enlace-descarga');
-                link.href = datos.download_url;
-                link.style.display = 'inline-block';
+            // Nota: Algunos navegadores bloquean CORS en peticiones directas a GitHub 
+            // Si el peso no aparece, es por políticas de seguridad del navegador.
+            const response = await fetch(url, { method: 'HEAD' });
+            const size = response.headers.get('content-length');
+            
+            if (size) {
+                const mb = (size / (1024 * 1024)).toFixed(2);
+                document.getElementById('peso').innerText = `Peso: ${mb} MB`;
+            } else {
+                // Alternativa si el HEAD falla: se puede poner un peso aproximado manual
+                document.getElementById('peso').innerText = "Peso: Disponible para descarga";
             }
-        } catch (error) {
-            console.error("Error al obtener el archivo:", error);
-            document.getElementById('nombre-archivo').innerText = "Archivo no encontrado";
+        } catch (e) {
+            document.getElementById('peso').innerText = "Archivo de Release listo";
         }
     }
 
-    obtenerDatos();
+    obtenerPeso();
 </script>
 
 </body>
