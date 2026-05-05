@@ -3,49 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Descarga Directa - Archivos.zip</title>
+    <title>Descarga de Proyecto - Archivos.rar</title>
     <style>
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background: #0d1117; color: white; }
-        .card { background: #161b22; padding: 2.5rem; border-radius: 12px; border: 1px solid #30363d; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.5); width: 300px; }
-        h2 { margin-bottom: 5px; font-size: 1.2rem; color: #58a6ff; }
-        #peso { color: #8b949e; margin-bottom: 20px; font-size: 0.9rem; }
-        .btn { display: inline-block; padding: 12px 24px; background: #238636; color: white; text-decoration: none; border-radius: 6px; font-weight: 600; transition: background 0.2s; }
-        .btn:hover { background: #2ea043; }
+        .card { background: #161b22; padding: 2.5rem; border-radius: 12px; border: 1px solid #30363d; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.5); width: 320px; }
+        h2 { margin: 0 0 10px 0; font-size: 1.4rem; color: #58a6ff; }
+        p { color: #8b949e; margin-bottom: 25px; font-size: 0.95rem; line-height: 1.4; }
+        .btn { display: inline-block; padding: 14px 28px; background: #238636; color: white; text-decoration: none; border-radius: 6px; font-weight: 600; transition: background 0.2s, transform 0.1s; }
+        .btn:hover { background: #2ea043; transform: translateY(-2px); }
+        .btn:active { transform: translateY(0); }
+        .file-icon { font-size: 3rem; margin-bottom: 15px; display: block; }
     </style>
 </head>
 <body>
 
 <div class="card">
-    <h2 id="nombre">Archivos.zip</h2>
-    <p id="peso">Calculando tamaño...</p>
-    <a href="https://github.com/StrangeWorldSH/archivo/releases/download/1.0/Archivos.zip" class="btn">Descargar archivo</a>
+    <span class="file-icon">📦</span>
+    <h2>Archivos.rar</h2>
+    <p>Proyecto de Godot comprimido.<br>Listo para descargar e importar.</p>
+    
+    <!-- Enlace actualizado a tu nuevo Release -->
+    <a href="https://github.com/StrangeWorldSH/archivo/releases/download/1.0/Archivos.rar" class="btn">
+        Descargar Archivo
+    </a>
 </div>
-
-<script>
-    const url = "https://github.com/StrangeWorldSH/archivo/releases/download/1.0/Archivos.zip";
-
-    // Función para obtener el tamaño del archivo desde el servidor
-    async function obtenerPeso() {
-        try {
-            // Nota: Algunos navegadores bloquean CORS en peticiones directas a GitHub 
-            // Si el peso no aparece, es por políticas de seguridad del navegador.
-            const response = await fetch(url, { method: 'HEAD' });
-            const size = response.headers.get('content-length');
-            
-            if (size) {
-                const mb = (size / (1024 * 1024)).toFixed(2);
-                document.getElementById('peso').innerText = `Peso: ${mb} MB`;
-            } else {
-                // Alternativa si el HEAD falla: se puede poner un peso aproximado manual
-                document.getElementById('peso').innerText = "Peso: Disponible para descarga";
-            }
-        } catch (e) {
-            document.getElementById('peso').innerText = "Archivo de Release listo";
-        }
-    }
-
-    obtenerPeso();
-</script>
 
 </body>
 </html>
